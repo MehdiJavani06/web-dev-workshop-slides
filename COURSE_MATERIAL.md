@@ -497,18 +497,121 @@ Create a single HTML document named `portal.html`. Your mission is to build a co
 
 ---
 
-### Session 3: The CSS Box Model & Cascading Specificity
+### Session 3: CSS Foundations, The Box Model & Visual Architecture
 
 #### 1. Objectives & Time Allocation (2 Hours)
+- Understand the Separation of Concerns: Why HTML provides structure and CSS provides presentation.
+- Master CSS Syntax: Selectors, declarations, properties, and values.
+- Compare the 3 Stylesheet Locations: Inline (`style=""`), Internal (`<style>`), and External (`<link>`).
+- Demystify CSS Specificity (Tags vs. Classes vs. IDs) using the Trophy Hierarchy.
+- Style core visual properties: Typography (`font-family`, `font-size`, `font-weight`, `line-height`, `color`), backgrounds, and borders.
+- Master CSS Measurement Units: Absolute (`px`) vs Relative (`rem`, `em`, `%`, `vh`, `vw`).
 - Master the 4 layers of the Box Model: Content, Padding, Border, Margin.
-- Understand `box-sizing: border-box` and why layouts break without it.
-- Demystify CSS Specificity (Tags vs. Classes vs. IDs).
-- Use the DevTools Box Model visualizer to diagnose layout collisions.
+- Understand `box-sizing: border-box` and why layouts break without the Universal Reset.
+- Inspect and debug layouts live using Chrome DevTools Styles & Box Model tabs.
+- Complete two production-grade homework assignments combining HTML5 semantics and CSS styling.
 
 #### 2. Concept & Mental Models (45 min)
 
-##### The Postal Box Metaphor
-Every element on a webpage is a rectangular cardboard shipping box:
+##### 1. The Separation of Concerns: Skeleton vs. Clothing
+HTML provides semantic meaning and document structure—the bones and blueprint of a house.
+CSS (*Cascading Style Sheets*) provides the aesthetic layer—the interior paint, wallpaper, lighting, furniture spacing, and tailoring.
+Without CSS, all HTML renders with raw browser default styles: black Times New Roman, 100% width, zero margins, unstyled blue underlined links.
+Separating structure from presentation allows:
+- Redesigning an entire website by editing a single `.css` file.
+- Serving different layouts (mobile, tablet, desktop, print) for the exact same HTML.
+- Keeping HTML accessible, clean, and machine-readable.
+
+##### 2. CSS Syntax & Rule Anatomy
+A CSS document consists of a list of rules:
+```css
+selector {
+  property: value;
+  property: value;
+}
+```
+- **Selector**: Points to the HTML element(s) you want to style (e.g., `h1`, `.card`, `#hero`).
+- **Declaration Block**: Enclosed in curly braces `{ ... }`.
+- **Declaration**: A single styling instruction (`property: value;`).
+- **Property**: The feature you are changing (e.g., `color`, `font-size`, `margin`).
+- **Value**: How you want that feature configured (e.g., `#2563eb`, `1.5rem`, `24px`).
+- **Semicolon (`;`)**: **Mandatory** at the end of each declaration. Omitting a semicolon breaks all subsequent rules in that block!
+
+##### 3. The 3 Stylesheet Locations: Where Does CSS Live?
+There are three ways to apply CSS to HTML:
+
+| Location | Syntax | Best For | Production Verdict |
+| :--- | :--- | :--- | :--- |
+| **Inline Styles** | `<p style="color: red;">` | Quick debugging, email HTML, dynamic JS values | ❌ **Avoid**: Impossible to maintain, high specificity trap |
+| **Internal Styles** | `<style>` in `<head>` | Single-page standalone demos, quick prototypes | ⚠️ **Use sparingly**: Styles can't be shared across pages |
+| **External Stylesheet** | `<link rel="stylesheet" href="style.css">` | All real-world web applications | ✅ **Standard**: Cached by browser, DRY, clean separation |
+
+**The Professional `<link>` Contract:**
+```html
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website</title>
+  <!-- Connects external CSS to HTML -->
+  <link rel="stylesheet" href="style.css">
+</head>
+```
+
+##### 4. Targeting Elements: Tag vs. Class vs. ID
+- **Tag / Element Selector** (`p`, `h1`, `button`):
+  Targets every occurrence of that tag globally. Use sparingly for base document resets.
+- **Class Selector** (`.card`, `.btn-primary`, `.badge`):
+  Begins with a dot `.`. Reusable across multiple elements. **The primary workhorse of professional web development.**
+- **ID Selector** (`#header`, `#submit-button`):
+  Begins with a hash `#`. Must be unique to a single element per page. **Avoid in CSS**—it creates specificity lock-in that is nearly impossible to override.
+
+##### 5. Cascading Specificity Without Mathematics (The Trophy Hierarchy)
+When two conflicting CSS rules target the same element, the browser needs a way to decide which one wins.
+Instead of memorizing complex 4-digit math, use the **Trophy Hierarchy**:
+
+```
+[Level 4: Inline Style] (style="...") ──> The Nuclear Option (Overrides almost everything)
+        ▲
+[Level 3: ID Selector] (#header)      ──> Heavyweight Champion (Overrides classes)
+        ▲
+[Level 2: Class / Attribute] (.card)   ──> Middleweight (Standard workhorse)
+        ▲
+[Level 1: Tag Selector] (p, h1, div)   ──> Lightweight (Weakest baseline)
+```
+- If specificity is equal, **the rule written lower in the CSS file wins** (The Cascade).
+- If one rule is more specific, it wins regardless of source order!
+
+##### 6. Essential Typography & Color Styling
+- **Colors**:
+  - Hex codes: `#2563eb` (standard 6-character hex).
+  - RGB / RGBA: `rgba(37, 99, 235, 0.15)` (ideal for soft tints and transparent overlays).
+- **Typography**:
+  - `font-family`: Comma-separated font stack with fallbacks (e.g. `system-ui, -apple-system, sans-serif`).
+  - `font-size`: Text scale (e.g. `1.125rem`, `2rem`).
+  - `font-weight`: `400` (normal), `600` (semibold), `700` (bold).
+  - `line-height`: Vertical distance between lines. **Golden Rule**: Use unitless numbers between `1.4` and `1.6` for readable body copy.
+  - `text-align`: `left`, `center`, `right`.
+- **Backgrounds & Borders**:
+  - `background-color`: Fills the content and padding area.
+  - `border`: Shorthand: `width style color` (e.g. `border: 1px solid #e2e8f0;`).
+  - `border-radius`: Rounded corners (e.g. `8px` for subtle cards, `9999px` for pill badges).
+
+##### 7. CSS Measurement Units: Absolute vs. Relative
+Screens come in all sizes—from 320px mobile phones to 4K monitors. Understanding units is essential for responsive, accessible design:
+
+| Unit | Type | What It's Based On | Best Used For |
+| :--- | :--- | :--- | :--- |
+| **`px`** | Absolute | 1 physical screen pixel | Borders (`1px solid`), subtle shadows, hairline dividers |
+| **`rem`** | Relative | Root font size of `<html>` (default: 16px) | **Everything text and spacing!** `font-size`, `padding`, `margin` |
+| **`em`** | Relative | Font size of the *immediate parent* element | Badges or buttons where padding scales proportionally with icon/text |
+| **`%`** | Relative | Size of the *parent container* | Layout widths (`width: 50%`, `max-width: 100%`) |
+| **`vw` / `vh`** | Relative | 1% of the browser Viewport Width / Height | Hero section heights (`min-height: 80vh`), full-bleed banners |
+
+**Why `rem` is the Modern Standard:**
+If a visually impaired user increases their browser default font size to 24px, a site built with `rem` will scale cleanly and remain accessible. A site hardcoded in `px` will ignore user settings and stay tiny.
+
+##### 8. The Postal Box Metaphor (The Box Model)
+Every single HTML element on a webpage is rendered as a rectangular cardboard shipping box:
 ```
 +-------------------------------------------------------+
 | MARGIN (Clear space outside the box / neighbor buffer) |
@@ -523,82 +626,150 @@ Every element on a webpage is a rectangular cardboard shipping box:
 |   +-------------------------------------------------+ |
 +-------------------------------------------------------+
 ```
-- **Content**: The text, icon, or image itself.
-- **Padding**: Inner space between the content and the border (colored by background).
-- **Border**: The frame around the element.
-- **Margin**: Outer space separating this element from adjacent elements.
+- **Content**: The inner text, icon, or image.
+- **Padding**: Inner breathing room between content and border. **Padding adopts the element's background color!**
+- **Border**: The outer frame of the box.
+- **Margin**: The invisible buffer separating this box from surrounding boxes. Always transparent.
 
-##### The `box-sizing: border-box` Rescue Rule
-By default in CSS (`content-box`), if you set `width: 200px` and add `padding: 20px`, the browser expands the element to `240px`. This causes boxes to break rows unexpectedly.
-With `box-sizing: border-box`, `width: 200px` includes the padding and border.
+##### 9. The `box-sizing: border-box` Rescue & The Universal Reset
+By default in CSS (`box-sizing: content-box`), if you define `width: 300px` and add `padding: 20px`, the browser calculates:
+$$\text{Total Width} = 300\text{px} + 20\text{px} + 20\text{px} = 340\text{px}$$
+This unexpected expansion breaks multi-column layouts and forces boxes onto new lines.
+With `box-sizing: border-box`, `width: 300px` includes the padding and border:
+$$\text{Total Width} = 300\text{px (content shrinks to 260px)}$$
+
+**The Universal Reset (Line 1 of every modern stylesheet):**
 ```css
-/* Universal reset applied to every modern project */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-```
-
-##### Specificity Without Mathematics
-When two CSS rules target the same element, the more specific selector wins:
-1. **Element Tag** (`p`): Weakest (Score: 1).
-2. **Class** (`.card`): Medium strength (Score: 10) — **Recommended default**.
-3. **ID** (`#hero`): Strong (Score: 100) — *Avoid in CSS to prevent specificity wars*.
-4. **Inline style** (`style="..."`): Nuclear option (Score: 1000).
-
-#### 3. 10-Minute Syntax & Concept Drill
-Fill in the blanks:
-```css
-/* Make card 300px wide, with 16px inner breathing room, 
-   a 1px solid gray border, and 24px space from other cards */
-.product-card {
-  width: 300px;
-  ________: 16px;       /* inner space */
-  border: 1px solid #ccc;
-  ________: 24px;       /* outer buffer */
-}
-```
-*(Answers: padding; margin)*
-
-#### 4. Hands-on Lab: DevTools Box Model Surgery (55 min)
-1. Create `box-model.html` and `style.css`.
-2. Insert two buttons with overlapping margins:
-```html
-<div class="box-container">
-  <button class="btn btn-primary">Save Changes</button>
-  <button class="btn btn-danger">Delete Account</button>
-</div>
-```
-3. In `style.css`:
-```css
+/* Universal reset applied to every project */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-.btn {
-  display: inline-block;
-  padding: 12px 24px;
-  border: 2px solid transparent;
-  font-size: 16px;
-  cursor: pointer;
-}
-.btn-primary {
-  background-color: #2563eb;
-  color: #ffffff;
-  margin-right: 16px;
-}
-.btn-danger {
-  background-color: #dc2626;
-  color: #ffffff;
-}
 ```
-4. Open the page in Chrome.
-5. In **DevTools**, select `.btn-primary`. Scroll down the Styles pane to inspect the interactive **Box Model Diagram**.
-6. Double-click the padding and margin values inside DevTools and change them live. Observe how layout shifts occur.
+
+##### 10. Margin Collapsing Explained Simply
+When two vertical block elements touch (e.g. paragraph with `margin-bottom: 20px` followed by another paragraph with `margin-top: 15px`), their margins **collapse** into the single largest value ($20\text{px}$), rather than adding up to $35\text{px}$.
+This is intentional browser behavior to keep paragraphs from spacing too far apart.
+
+#### 3. 10-Minute Syntax & Concept Drill
+Fill in the blanks and diagnose the issues:
+
+```css
+/* Drill 1: Box Model Dimensions
+   Given: width: 200px, padding: 15px, border: 2px solid black.
+   Under border-box, what is the total rendered width?
+   Answer: ________ */
+
+/* Drill 2: Selector Specificity
+   Which rule turns the button text white? */
+button { color: red; }
+.btn { color: green; }
+#submit { color: white; }
+/* Answer: ________ */
+
+/* Drill 3: Spacing Shorthand
+   margin: 10px 20px;
+   Top/Bottom = ________, Left/Right = ________ */
+```
+*(Answers: 200px; #submit (ID has highest specificity); Top/Bottom = 10px, Left/Right = 20px)*
+
+#### 4. Hands-on Lab: The Extreme CSS Makeover (35 min)
+
+##### Starter HTML Code (`event.html`):
+Students create `event.html` and `style.css`, linked via `<link rel="stylesheet" href="style.css">`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Showcase Makeover</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <article class="event-card">
+    <span class="badge">WORKSHOP</span>
+    <h2>Web Architecture 2026</h2>
+    <p class="meta">📅 Saturday, Oct 24 • 10:00 AM</p>
+    <p class="desc">
+      Master modern CSS layout engines, box model mechanics,
+      and responsive typography tokens from the ground up.
+    </p>
+    <button type="button" class="btn-register">
+      Register Now • Free
+    </button>
+  </article>
+</body>
+</html>
+```
+
+##### Sprint Breakdown:
+1. **Sprint 1: Universal Reset & Base Typography (8 min)**
+   - Add the 3-line reset at line 1 of `style.css`:
+     `*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }`
+   - Set `body` to `font-family: system-ui, sans-serif; background-color: #f1f5f9; color: #1e293b; line-height: 1.6; padding: 2rem;`.
+2. **Sprint 2: Card Box Geometry & Spacing (15 min)**
+   - Target `.event-card`: `max-width: 420px; margin: 40px auto; background-color: #ffffff; padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);`.
+   - Target `.badge`: `display: inline-block; padding: 4px 12px; border-radius: 9999px; background-color: rgba(222, 59, 61, 0.1); color: #de3b3d; font-size: 0.75rem; font-weight: 700; margin-bottom: 12px;`.
+   - Set `.event-card h2`: `font-size: 1.5rem; margin-bottom: 8px; color: #0f172a;`.
+   - Set `.meta`: `color: #64748b; font-size: 0.9rem; margin-bottom: 14px;`.
+   - Set `.desc`: `color: #475569; font-size: 0.95rem; margin-bottom: 20px;`.
+3. **Sprint 3: Interactive CTA Button & Hover Polish (12 min)**
+   - Target `.btn-register`: `display: block; width: 100%; padding: 12px; border-radius: 8px; background-color: #de3b3d; color: #ffffff; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.2s ease, transform 0.1s ease;`.
+   - Add `.btn-register:hover`: `background-color: #b91c1c; transform: translateY(-1px);`.
+   - Add `.btn-register:active`: `transform: translateY(0);`.
+
+##### Visual Blueprint (Expected Target Output):
+```text
++-------------------------------------------------------------+
+| Browser Window: http://localhost:5173/event.html           |
+| (Page Background: #f1f5f9)                                  |
+|                                                             |
+|           +-------------------------------------+           |
+|           | ( WORKSHOP )  (pill badge)          |           |
+|           |                                     |           |
+|           | Web Architecture 2026               |           |
+|           | 📅 Sat, Oct 24 • 10:00 AM           |           |
+|           |                                     |           |
+|           | Master modern CSS layout engines,   |           |
+|           | box model mechanics, and responsive |           |
+|           | typography from the ground up.      |           |
+|           |                                     |           |
+|           | [ Register Now • Free ]             |           |
+|           | (Accent red, hover: #b91c1c)        |           |
+|           +-------------------------------------+           |
+|                                                             |
++-------------------------------------------------------------+
+```
 
 #### 5. AI Tutor Challenge (10 min)
-Prompt your AI tutor:
-> *"What is margin collapsing in CSS, and why did my top margin on an element inside a container seem to disappear? Explain using simple words."*
+Test your understanding by prompting your AI tutor:
+> *"I have a `<button>` inside a `<div>`. When I add `margin-top: 20px` to the button, the whole parent container moves down instead of just the button moving inside the container. Why is this happening in CSS, and how do front-end developers solve it using padding or border-box?"*
+
+#### 6. Homework 1: The CSS Bug Clinic (5 Layout Surgeries) (`clinic.html` + `clinic.css`)
+- **Objective**: Diagnose and repair 5 real-world CSS defects in an intentionally broken codebase using Chrome DevTools.
+- **Deliverables**: `clinic.html` and `clinic.css` pushed to GitHub under `session-03/homework-1/`.
+- **The 5 Clinical Defects to Repair**:
+  1. **Semicolon Paralysis:** A missing semicolon in a declaration block that silently cancels subsequent styling properties.
+  2. **Content-Box Blowout:** An element with `width: 100%` plus `padding: 24px` blowing out past the viewport edge because `box-sizing: border-box` was omitted.
+  3. **ID Specificity Lockout:** An `#id` selector in CSS preventing a button class `.btn-primary` from changing background color.
+  4. **Margin Bleed Trap:** Padding vs. margin confusion causing background colors to bleed outside intended borders.
+  5. **Line-Height Collision:** A hardcoded `line-height: 14px` causing multi-line `24px` title text to overlap and collide.
+- **Diagnostic Method**: Inspect the Elements & Styles tab in DevTools, spot crossed-out rules and computed box dimensions, and surgically fix each flaw.
+
+#### 7. Homework 2: The Modern SaaS Pricing Tier (`pricing.html` + `pricing.css`)
+- **Objective**: Build a high-converting, professional SaaS pricing card and feature comparison showcase.
+- **Deliverables**: `pricing.html` and `pricing.css` pushed to GitHub.
+- **Core Requirements**:
+  1. Semantic structure with `<header>`, `<section class="pricing-card">`, and `<footer>`.
+  2. "Most Popular" or "Pro Tier" highlight badge.
+  3. Big typography pricing display (e.g. `$29` with `/month` subscript).
+  4. Feature checklist (`<ul>`) with custom styled checkmark indicators.
+  5. High-contrast CTA button with a styled `:hover` transition.
+  6. Zero ID selectors in CSS; all rules scoped cleanly using reusable classes.
+  7. Strict box model sizing to prevent any overflow or layout breaking.
 
 ---
 
