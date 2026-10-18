@@ -112,24 +112,24 @@ Whenever new syntax is introduced, students are never presented with an empty co
 +-------------------------------------------------------------------------------+
 |                        14-SESSION ROADMAP OVERVIEW                            |
 +-------------------------------------------------------------------------------+
-| PHASE 1: WEB ARCHITECTURE & VISUAL STRUCTURE (Sessions 1–5)                   |
+| PHASE 1: WEB ARCHITECTURE & VISUAL STRUCTURE (Sessions 1–4)                   |
 |   Session 1: How the Web Works: Internet, DNS, HTTP, Client-Server & Browsers |
 |   Session 2: Semantic HTML5 & The DOM Tree Architecture                       |
 |   Session 3: The CSS Box Model & Cascading Specificity                        |
-|   Session 4: Modern Layout Engine: Flexbox (The 3-Property Rule)              |
-|   Session 5: Responsive Components & Accessible Forms                         |
+|   Session 4: Modern Layouts with Flexbox, Responsive Design & CSS Wrap-up     |
 +-------------------------------------------------------------------------------+
-| PHASE 2: JAVASCRIPT FUNDAMENTALS & DYNAMIC ACTIONS (Sessions 6–10)            |
-|   Session 6: JavaScript Core Mental Model & Browser Memory                    |
-|   Session 7: Essential Data Structures: Objects & Arrays                      |
-|   Session 8: The Bridge: DOM Querying & Dynamic Updates                       |
-|   Session 9: Event-Driven Programming: Clicks, Inputs & State                 |
-|   Session 10: Array Iteration & Dynamic Card Rendering                        |
+| PHASE 2: JAVASCRIPT FUNDAMENTALS & DYNAMIC ACTIONS (Sessions 5–9)             |
+|   Session 5: JavaScript Core Mental Model & Browser Memory                    |
+|   Session 6: Essential Data Structures: Objects & Arrays                      |
+|   Session 7: The Bridge: DOM Querying & Dynamic Updates                       |
+|   Session 8: Event-Driven Programming: Clicks, Inputs & State                 |
+|   Session 9: Array Iteration & Dynamic Card Rendering                        |
 +-------------------------------------------------------------------------------+
-| PHASE 3: SYSTEMS INTEGRATION, DEVTOOLS & AI AUDITING (Sessions 11–14)         |
-|   Session 11: Asynchronous Web & Data Fetching (REST APIs & JSON)            |
-|   Session 12: Browser DevTools Mastery & "Find the Bug" Code Audit            |
-|   Session 13: Prompt Decomposition, GitHub GUI & Project Assembly             |
+| PHASE 3: SYSTEMS INTEGRATION, DEVTOOLS & AI AUDITING (Sessions 10–14)         |
+|   Session 10: Asynchronous Web & Data Fetching (REST APIs & JSON)             |
+|   Session 11: Browser DevTools Mastery & "Find the Bug" Code Audit            |
+|   Session 12: Prompt Decomposition, GitHub GUI & Project Assembly             |
+|   Session 13: Capstone Integration Lab & Systems Polish                       |
 |   Session 14: Project Showcase, Live Console Interrogation & Code Defense     |
 +-------------------------------------------------------------------------------+
 ```
@@ -773,13 +773,18 @@ Test your understanding by prompting your AI tutor:
 
 ---
 
-### Session 4: Modern Layout Engine: Flexbox (The 3-Property Rule)
+### Session 4: Modern Layouts with Flexbox, Responsive Design & CSS Wrap-up
 
 #### 1. Objectives & Time Allocation (2 Hours)
-- Understand the Flex Container vs. Flex Item relationship.
-- Master the 3 essential Flexbox properties: `display: flex`, `justify-content`, `align-items`.
-- Understand main axis vs. cross axis.
-- Build a responsive multi-card product grid without floats or absolute positioning.
+- Understand the Flex Container vs. Flex Item parent-child relationship.
+- Master the 3 essential Flexbox properties: `display: flex`, `justify-content` (Main Axis), and `align-items` (Cross Axis).
+- Control layout flow with `flex-direction` (row vs. column), `flex-wrap: wrap`, and modern `gap` spacing.
+- Master flex child sizing: `flex-grow`, `flex-shrink`, `flex-basis`, the `flex: 1 1 280px` recipe, and the `margin-top: auto` button alignment superpower.
+- Master the Mobile Viewport Contract: `<meta name="viewport" content="width=device-width, initial-scale=1.0">`.
+- Apply Mobile-First Responsive Design using `@media (min-width: ...)` breakpoints (640px, 768px, 1024px, 1280px).
+- Build production UI patterns: Responsive Navigation Bar, Fluid Multi-Card Grids, and Accessible 2-Column Forms.
+- Inspect and emulate devices using Chrome DevTools Device Mode (`Cmd + Shift + M`).
+- Synthesize the complete 5-layer CSS architecture and celebrate Phase 1 graduation before starting JavaScript in Session 5.
 
 #### 2. Concept & Mental Models (45 min)
 
@@ -794,197 +799,97 @@ Flexbox applies to a **Parent Container** to control how its direct **Child Item
 |   +-------------------+  +-------------------+  +---------------+ |
 +-------------------------------------------------------------------+
 ```
+*Golden Rule:* Flexbox rules are partitioned between parents (container alignment) and children (item sizing). Flex properties do *not* inherit to grandchildren.
 
 ##### The 3-Property Rule
 You only need 3 CSS properties to solve 90% of layout problems:
 1. `display: flex;` -> Activates the Flexbox layout engine on the parent.
 2. `justify-content: ...;` -> Aligns children along the **Main Axis** (default: horizontal row).
-   - `flex-start` | `center` | `flex-end` | `space-between`
+   - `flex-start` | `center` | `flex-end` | `space-between` | `space-around` | `space-evenly`
 3. `align-items: ...;` -> Aligns children along the **Cross Axis** (default: vertical column).
-   - `stretch` | `center` | `flex-start` | `flex-end`
+   - `stretch` | `center` | `flex-start` | `flex-end` | `baseline`
 
+##### Direction, Wrapping & The Gap Property
+- `flex-direction: column;` -> Flips the main axis to vertical (ideal for mobile stacks and card bodies).
+- `flex-wrap: wrap;` -> Allows cards to wrap down to the next row when screen width is exceeded.
+- `gap: 20px;` -> Declares clean gutters between flex items without edge margin bleeding.
+
+##### Flex Child Sizing & The `margin-top: auto` Secret
+- `flex: 1 1 280px;` -> The universal fluid card recipe (starts at 280px, shrinks on mobile, grows to fill empty desktop gaps).
+- `margin-top: auto;` in a flex column: acts like an expanding spring, absorbing all remaining vertical space in a card and pushing the CTA button to the bottom, ensuring a razor-sharp horizontal button baseline across sibling cards.
+
+##### The Mobile Viewport Meta Tag Contract
+Without this single line in `<head>`, mobile phones pretend to be 980px desktop monitors, causing microscopic unreadable text:
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
-JUSTIFY-CONTENT (Horizontal Row):
-[Item1] [Item2] [Item3]                   -> flex-start
-            [Item1] [Item2] [Item3]       -> center
-[Item1]            [Item2]        [Item3] -> space-between
 
-ALIGN-ITEMS (Vertical Alignment):
-+-------------------------------+
-| [Top]                         | -> flex-start
-|            [Center]           | -> center
-|                         [Bot] | -> flex-end
-+-------------------------------+
+##### Mobile-First Media Queries & Responsive Breakpoints
+Start with single-column natural block flow for mobile screens. Progressively enhance upward using `min-width`:
+```css
+/* Base: Mobile single column */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Enhanced: Tablet & Desktop side-by-side */
+@media (min-width: 640px) {
+  .form-row {
+    flex-direction: row;
+  }
+}
 ```
 
-##### Controlling Direction & Wrapping
-- `flex-direction: column;` -> Flips the main axis to vertical (ideal for mobile stacks).
-- `flex-wrap: wrap;` -> Allows cards to wrap down to the next row when the screen is narrow.
+##### The Accessible Form Contract
+Every `<input id="x">` must be explicitly paired with `<label for="x">`. Clicking the label text focuses the input, expanding touch targets for mobile users and enabling screen readers. Include custom `:focus-visible` outlines for keyboard Tab navigation.
 
 #### 3. 10-Minute Syntax & Concept Drill
-**Fill in the blanks to center a card horizontally and vertically on the screen:**
 ```css
-.hero-container {
-  display: ________;
-  justify-content: ________; /* Horizontal center */
-  align-items: ________;     /* Vertical center */
-  height: 100vh;
-}
-```
-*(Answers: flex; center; center)*
-
-#### 4. Hands-on Lab: Building an Accessible Product Grid (55 min)
-1. Create `products.html` and `products.css`.
-2. Add the semantic markup:
-```html
-<main class="store-container">
-  <header class="store-header">
-    <h2>Featured Products</h2>
-    <span class="badge">3 Items</span>
-  </header>
-
-  <section class="card-grid">
-    <article class="card">
-      <img src="https://picsum.photos/300/200?random=1" alt="Vintage Camera">
-      <div class="card-body">
-        <h3>Vintage Camera</h3>
-        <p class="price">$199.00</p>
-        <button type="button">Add to Cart</button>
-      </div>
-    </article>
-    <article class="card">
-      <img src="https://picsum.photos/300/200?random=2" alt="Wireless Headphones">
-      <div class="card-body">
-        <h3>Wireless Headphones</h3>
-        <p class="price">$89.00</p>
-        <button type="button">Add to Cart</button>
-      </div>
-    </article>
-    <article class="card">
-      <img src="https://picsum.photos/300/200?random=3" alt="Smart Watch">
-      <div class="card-body">
-        <h3>Smart Watch</h3>
-        <p class="price">$149.00</p>
-        <button type="button">Add to Cart</button>
-      </div>
-    </article>
-  </section>
-</main>
-```
-3. Style the grid with Flexbox:
-```css
-.store-header {
+/* 1. Center a card horizontally and vertically: */
+.hero {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
 }
-.card-grid {
+
+/* 2. Fluid card grid with zero media queries: */
+.grid {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 .card {
-  flex: 1 1 280px; /* Grow, shrink, base width */
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.card-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.card-body button {
-  margin-top: auto; /* Pushes button to the bottom of the card */
-  padding: 10px;
-  background: #0284c7;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  flex: 1 1 280px;
 }
 ```
-4. Open in Chrome. Resize the window to verify that cards wrap smoothly without media queries.
+
+#### 4. Hands-on Lab: The Fluid Storefront (`store.html` & `store.css`) (35 min)
+Build a responsive e-commerce storefront featuring:
+- Responsive header with brand title left and item counter badge right (`justify-content: space-between`).
+- Filter pill tags aligned with Flexbox `gap`.
+- Fluid multi-card grid using `flex-wrap: wrap` and `flex: 1 1 280px`.
+- Product cards with unequal description lengths, using `margin-top: auto` to pin buttons to an aligned baseline.
+- Verification in Chrome DevTools Device Mode across iPhone (375px), iPad (768px), and Desktop.
 
 #### 5. AI Tutor Challenge (10 min)
 Prompt your AI tutor:
-> *"Why does `margin-top: auto` push an item to the very bottom inside a Flex container with `flex-direction: column`? Explain the mechanics simply."*
+> *"Why does `margin-top: auto` push an item to the very bottom inside a Flex container with `flex-direction: column`? Explain the mechanics simply using the spring metaphor."*
+
+#### 6. Homework 1: The Fluid Flexbox Storefront (`products.html` + `products.css`)
+- **Objective:** Build an aligned e-commerce product catalog with filter tags and auto-aligned CTA buttons.
+- **Deliverables:** `products.html` and `products.css` pushed to GitHub under `session-04/homework-1/`.
+- **Key Concepts:** `display: flex`, `flex-wrap: wrap`, `gap`, `flex: 1 1 280px`, `margin-top: auto` button baseline alignment.
+
+#### 7. Homework 2: The Responsive Tech Portal & Accessible Form (`portal.html` + `portal.css`)
+- **Objective:** Build a mobile-first developer conference portal with a responsive navbar and an accessible 2-column to 1-column registration form.
+- **Deliverables:** `portal.html` and `portal.css` pushed to GitHub under `session-04/homework-2/`.
+- **Key Concepts:** Viewport meta tag, mobile-first `@media (min-width: 640px)`, responsive navigation bar, `<label for>` accessibility contract, radio button pill groups, and `:focus-visible` outlines.
 
 ---
 
-### Session 5: Responsive Components & Accessible Forms
-
-#### 1. Objectives & Time Allocation (2 Hours)
-- Build accessible form controls with proper `<label>` to `<input>` binding.
-- Understand the viewport meta tag and media query mental models.
-- Build a responsive navigation bar with a mobile hamburger toggle layout.
-- Use AI as a CSS troubleshooter without allowing it to break existing styles.
-
-#### 2. Concept & Mental Models (45 min)
-
-##### The Accessible Form Contract
-Never place an input without a connected label. Users with assistive technology or small touchscreen targets need to click the label to focus the input:
-```html
-<!-- Explicit binding via "for" and "id" -->
-<label for="user-email">Email Address</label>
-<input type="email" id="user-email" name="email" required placeholder="name@domain.com">
-```
-
-##### The Mobile Viewport Meta Tag
-Without this single line in `<head>`, mobile phones pretend to be desktop monitors (zooming out to 980px):
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-```
-
-##### Responsive Philosophy: Mobile-First Stacking
-1. Start with single-column layouts for mobile screens (cards stack naturally).
-2. Use `@media (min-width: 768px)` to enhance the layout into multiple columns when room is available:
-```css
-/* Base: Mobile single column */
-.nav-links {
-  display: none; /* hidden behind toggle on mobile */
-  flex-direction: column;
-}
-/* Enhanced: Desktop horizontal row */
-@media (min-width: 768px) {
-  .nav-links {
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-  }
-}
-```
-
-#### 3. 10-Minute Syntax & Concept Drill
-**Fill in the missing attributes to connect the label to the input:**
-```html
-<form>
-  <label ______="student-id">Student ID Number</label>
-  <input type="text" ______="student-id" name="id" required>
-</form>
-```
-*(Answers: for; id)*
-
-#### 4. Hands-on Lab: Accessible Contact Card & Responsive Form (55 min)
-1. Create `contact.html`.
-2. Build an accessible registration card with inputs for name, email, account type (select dropdown), and a submit button.
-3. Apply responsive styling:
-   - On screens `< 600px`, inputs take `width: 100%`.
-   - On screens `> 600px`, use Flexbox to display First Name and Last Name side by side.
-4. Test keyboard accessibility:
-   - Press `Tab` repeatedly to ensure the focus ring moves logically from label to input to button.
-
-#### 5. AI Tutor Challenge (10 min)
-Paste your HTML into your AI tutor:
-> *"Review this form markup. Check if I have any accessibility mistakes with labels, ARIA attributes, or button types. Explain any recommendation in 2 sentences."*
-
----
-
-### Session 6: JavaScript Core Mental Model & Browser Memory
+### Session 5: JavaScript Core Mental Model & Browser Memory
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Understand the role of JavaScript: changing state and reacting to actions.
@@ -1056,7 +961,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 7: Essential Data Structures: Objects & Arrays
+### Session 6: Essential Data Structures: Objects & Arrays
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Master Objects using the **Contact Card** metaphor (labeled key-value pairs).
@@ -1153,7 +1058,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 8: The Bridge: DOM Querying & Dynamic Updates
+### Session 7: The Bridge: DOM Querying & Dynamic Updates
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Understand the DOM as an API that JavaScript uses to interact with HTML.
@@ -1244,7 +1149,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 9: Event-Driven Programming: Clicks, Inputs & State
+### Session 8: Event-Driven Programming: Clicks, Inputs & State
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Understand the Event Loop and asynchronous user triggers.
@@ -1352,7 +1257,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 10: Array Iteration & Dynamic Card Rendering
+### Session 9: Array Iteration & Dynamic Card Rendering
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Master iterating through arrays of objects using `for...of` and `forEach`.
@@ -1426,7 +1331,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 11: Asynchronous Web & Data Fetching (REST APIs & JSON)
+### Session 10: Asynchronous Web & Data Fetching (REST APIs & JSON)
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Understand the Asynchronous Web: Why network calls cannot freeze the browser.
@@ -1502,7 +1407,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 12: Browser DevTools Mastery & "Find the Bug" Code Audit
+### Session 11: Browser DevTools Mastery & "Find the Bug" Code Audit
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Transform DevTools from a viewing tool into a deep diagnostic validator.
@@ -1561,7 +1466,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 13: Prompt Decomposition, GitHub GUI & Capstone Assembly
+### Session 12: Prompt Decomposition, GitHub GUI & Capstone Assembly
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Master **Prompt Decomposition**: Breaking a feature into small, verifiable chunks.
@@ -1621,7 +1526,7 @@ Prompt your AI tutor:
 
 ---
 
-### Session 14: Project Defense, Live Console Interrogation & Code Review
+### Sessions 13 & 14: Capstone Assembly, Project Defense & Code Review
 
 #### 1. Objectives & Time Allocation (2 Hours)
 - Final Showcase of Capstone Mini-Projects.
