@@ -4537,16 +4537,7 @@ const HomeworkAssignment: Page = () => (
     >
       {/* Project Brief */}
       <div
-        style={{
-          background: '#ffffff',
-          borderRadius: 16,
-          padding: '36px 40px',
-          border: `3px solid ${ink.accent}`,
-          boxShadow: shadow.card,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
+        style={{ background: '#ffffff', borderRadius: 16, padding: '36px 40px', border: `3px solid ${ink.accent}`, boxShadow: shadow.card, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', translate: '6px 0px' }}
       >
         <div>
           <div style={{ fontSize: 20, fontWeight: 700, color: ink.accent, marginBottom: 10, textTransform: 'uppercase' }}>
@@ -4604,7 +4595,7 @@ const HomeworkAssignment: Page = () => (
             </div>
 
             <div style={{ background: '#ffffff', padding: '14px 18px', borderRadius: 10, border: `1px solid ${ink.border}` }}>
-              <strong style={{ fontSize: 20, color: ink.text }}>Step 2: The 60-Second Audit</strong>
+              <strong style={{ fontSize: 20, color: ink.text }}>بب2: The 60-Second Audit</strong>
               <div style={{ fontSize: 18, color: ink.muted, marginTop: 4 }}>
                 Review what AI outputs. Did it include unnecessary divs? Did it forget tags? Fix any issues before pasting into your file.
               </div>

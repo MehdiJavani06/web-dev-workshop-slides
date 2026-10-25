@@ -1,0 +1,75 @@
+/* ============================================================
+   FIXED STYLESHEET — ALL 5 DEFECTS RESOLVED
+   ============================================================ */
+
+/* FIX A: Missing semicolon after background-color */
+body {
+  background-color: #f1f5f9;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+  padding: 40px;
+}
+
+/* FIX B: Add box-sizing to prevent horizontal overflow */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.event-card {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+}
+
+/* FIX C: line-height must be >= font-size (use unitless ratio) */
+.event-title {
+  font-size: 26px;
+  line-height: 1.3;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.event-meta {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* FIX D: Use padding (inner space) instead of margin for breathing room */
+.event-description {
+  background-color: #f8fafc;
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 8px;
+}
+
+.badge {
+  display: inline-block;
+  background-color: rgba(222, 59, 61, 0.1);
+  color: #de3b3d;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+/* FIX E: Lower specificity — use class only, remove ID selector */
+.btn-primary {
+  background-color: #de3b3d;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #c03234;
+}

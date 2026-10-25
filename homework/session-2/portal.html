@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Developer Summit 2026 - Registration Portal</title>
+</head>
+<body>
+<header>
+  <h1>Global Developer Summit 2026</h1>
+  <p>Registration & Workshop Schedule Portal</p>
+</header>
+
+<main>
+  <!-- PART A: The Registration Form -->
+  <section id="registration">
+    <h2>Attendee Registration</h2>
+    <form action="/register" method="POST">
+
+      <!-- Full Name -->
+      <div>
+        <label for="full-name">Full Name *</label>
+        <input type="text" id="full-name" name="name" required>
+      </div>
+
+      <!-- Email Address -->
+      <div>
+        <label for="user-email">Email Address *</label>
+        <input type="email" id="user-email" name="email" required>
+      </div>
+
+      <!-- Workshop Track Dropdown -->
+      <div>
+        <label for="track-select">Select Workshop Track *</label>
+        <select id="track-select" name="track" required>
+          <option value="">-- Please choose a track --</option>
+          <option value="frontend">Frontend Foundations</option>
+          <option value="fullstack">Full-Stack Mastery</option>
+          <option value="ai">AI Engineering</option>
+        </select>
+      </div>
+
+      <!-- Attendance Mode (Radio Buttons) -->
+      <fieldset>
+        <legend>Attendance Mode *</legend>
+
+        <div>
+          <input type="radio" id="mode-in-person" name="attendance-mode" value="in-person" checked>
+          <label for="mode-in-person">In-Person Attendance</label>
+        </div>
+
+        <div>
+          <input type="radio" id="mode-virtual" name="attendance-mode" value="virtual">
+          <label for="mode-virtual">Virtual Live Stream</label>
+        </div>
+      </fieldset>
+
+      <!-- Dietary / Notes -->
+      <div>
+        <label for="special-requests">Dietary & Accessibility Requirements</label>
+        <textarea id="special-requests" name="notes" rows="4"></textarea>
+      </div>
+
+      <!-- Code of Conduct Checkbox -->
+      <div>
+        <input type="checkbox" id="terms-consent" name="terms" required>
+        <label for="terms-consent">I agree to the conference Code of Conduct and Terms *</label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit">Complete Registration</button>
+
+    </form>
+  </section>
+    <!-- PART B: The Workshop Schedule & Pricing Table -->
+  <section id="schedule-matrix">
+    <h2>Workshop Matrix & Pricing</h2>
+    <table>
+      <caption>Workshop Schedule & Track Pricing Matrix</caption>
+
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Session Topic</th>
+          <th scope="col">Room</th>
+          <th scope="col">Instructor</th>
+          <th scope="col">Pricing</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <th scope="row">09:00 AM</th>
+          <td>Opening Keynote: The State of Web</td>
+          <td>Main Hall</td>
+          <td>Dr. Aria Chen</td>
+          <td>Included</td>
+        </tr>
+        <tr>
+          <th scope="row">10:30 AM</th>
+          <td>Frontend Foundations: Modern CSS</td>
+          <td>Room A</td>
+          <td>Marco Silva</td>
+          <td>$49</td>
+        </tr>
+        <tr>
+          <th scope="row">01:00 PM</th>
+          <td>Full-Stack Mastery: Node.js & React</td>
+          <td>Room B</td>
+          <td>Prof. Lena Okonkwo</td>
+          <td>$79</td>
+        </tr>
+        <tr>
+          <th scope="row">03:30 PM</th>
+          <td>AI Engineering: LLMs in Production</td>
+          <td>Room C</td>
+          <td>Sam Park</td>
+          <td>$99</td>
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr>
+          <td colspan="5">Note: All in-person tickets include breakfast, lunch, and lab equipment access.</td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+</main>
+<footer>
+  <p>&copy; 2026 Global Developer Summit. All rights reserved.</p>
+</footer>
+</body>
+</html>
